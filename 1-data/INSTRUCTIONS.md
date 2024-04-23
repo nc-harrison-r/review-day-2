@@ -11,7 +11,7 @@ export PGPASSWORD="DATABASE_PASSWORD_HERE"
 You will need to run a command like the one show in the template below to run SQL queries on the remote database.
 
 ```bash
-psql -h "HOST_URL" -p 5432 -U "USERNAME" -f 1-data/queries.sql
+psql -h "HOST_URL" -p 5432 -U "USERNAME" -d "DATABASE_NAME" -f 1-data/queries.sql
 ```
 
 In the **queries.sql** file write SQL queries to find the following information from the database:
@@ -25,7 +25,7 @@ In the **queries.sql** file write SQL queries to find the following information 
 When you run the queries you should save your results to a separate text file, you can do this with the redirection (`>`) operator like so:
 
 ```bash
-psql -h "HOST_URL" -p 5432 -U "USERNAME" -f 1-data/queries.sql > query_output.txt
+psql -h "HOST_URL" -p 5432 -U "USERNAME" -d "DATABASE_NAME" -f 1-data/queries.sql > query_output.txt
 ```
 
 Commit your results and the completed queries, and push them to your GitHub repository.
