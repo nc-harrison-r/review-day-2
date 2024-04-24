@@ -15,12 +15,12 @@ The `data` folder contains a file of `json` formatted doughnut data. Write an AP
   should return:
   ```json
   {
-  	"results": [
-  		{ "doughnut_type": "Nutty Heaven", "price": 1.27 },
-  		{ "doughnut_type": "Delectable Delights", "price": 2.75 },
-  		{ "doughnut_type": "Banana Bonanza", "price": 1.87 },
-  		{ "doughnut_type": "Biscoff Gourmet", "price": 1.46 }
-  	]
+    "results": [
+      { "doughnut_type": "Nutty Heaven", "price": 1.27 },
+      { "doughnut_type": "Delectable Delights", "price": 2.75 },
+      { "doughnut_type": "Banana Bonanza", "price": 1.87 },
+      { "doughnut_type": "Biscoff Gourmet", "price": 1.46 }
+    ]
   }
   ```
   If there are no doughnuts that satisfy the criteria, respond with a **204 status code and no body**.
@@ -32,4 +32,6 @@ Notes:
 1. There is no requirement to connect to a database. All the data is stored in a local `json` file, think about how you're going to access this file from your server.
 2. Use a separate Python virtual environment located in this directory.
 
-Commit your code when you are finished.
+Commit and push your code when you are finished.
+
+Please submit your code for review using the `/nchelp review` slack command.

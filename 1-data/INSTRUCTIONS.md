@@ -30,6 +30,8 @@ psql -h "HOST_URL" -p 5432 -U "USERNAME" -d "DATABASE_NAME" -f 1-data/queries.sq
 
 Commit your results and the completed queries, and push them to your GitHub repository.
 
+Please submit your code for review using the `/nchelp review` slack command.
+
 ## Notes and hints
 
 The columns in this database are _very_ badly named. This might cause
