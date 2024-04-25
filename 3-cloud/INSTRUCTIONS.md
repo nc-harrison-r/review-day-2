@@ -28,6 +28,8 @@ Things you will need to do:
 2. There are already a few IAM permissions set up, however there may be more that are necessary. You can use run test events on the AWS console to check if the code is working.
 3. The lambda code makes use of a environment variable `S3_BUCKET_NAME`, do a bit of research to find out how to set environment variables for lambda functions with terraform.
 
+Once you have **finished part one**, please submit your code for review using the `/nchelp review` slack command.
+
 ### Part Two (Extension)
 
 Add some monitoring and alerting. Occasionally, the application spots a particularly fine quote
