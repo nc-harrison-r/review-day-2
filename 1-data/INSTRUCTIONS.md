@@ -14,9 +14,15 @@
   c. Which user was the top spender in December 2022? Provide their
   email address and phone number.
 
-Save your queries to the file `queries.sql`. Save your results in separate text files.
+When you run the queries you should save your results to a separate text file, you can do this with the redirection (`>`) operator like so:
+
+```bash
+psql -h "HOST_URL" -p 5432 -U "USERNAME" -d "DATABASE_NAME" -f 1-data/queries.sql > query_output.txt
+```
 
 Commit your results and the completed queries, and push them to your GitHub repository.
+
+Please submit your code for review using the `/nchelp review` slack command.
 
 
 The ERD for this database is shown.
