@@ -17,8 +17,14 @@ Assuming you have forked and cloned this repo...
 These steps should all work until `terraform plan`. 
 
 ### Part One
-Fix all the problems so that the application deploys correctly. (You can assume that the 
-Python code is correct and does not need changing.)
+Fix all the problems so that the application deploys correctly. 
+
+#### Key Issues:
+- The code should be triggered by an Eventbridge Scheduler (implemented in Terraform as a CloudWatch
+Event Scheduler). This has not been implemented. (See `events.tf`)
+- You may find that the Lambda deploys correctly and can be invoked, but that it does not run. You 
+should assume that the Python code is correctly written and should not be changed. There are other issues
+with the deployment code.
 
 ### Part Two (Extension)
 Add some monitoring and alerting. Occasionally, the application spots a particularly fine quote
@@ -27,5 +33,4 @@ an email whenever this happens.
 
 ### Part Three (Really Very Optional)
 Create a CI/CD pipeline in Github Actions to deploy this on push.
-
 
