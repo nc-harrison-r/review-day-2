@@ -1,4 +1,5 @@
 """Lambda handler to get quotes and write them to S3."""
+
 import requests
 import boto3
 import os
