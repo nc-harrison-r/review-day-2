@@ -1,39 +1,24 @@
+/*
 data "archive_file" "lambda" {
-  type        = "zip"
+  type             = "zip"
   output_file_mode = "0666"
-  source_file = "${path.module}/../src/quotes.py"
-  output_path = "${path.module}/../function.zip"
+  source_file      = "${path.module}/../src/quotes.py"
+  output_path      = "${path.module}/../function.zip"
 }
 
 data "archive_file" "layer" {
-  type = "zip"
-  output_file_mode = "0666"
-  source_dir = "${path.module}/../layer/"
-  output_path = "${path.module}/../layer.zip"
-}
-
-resource "aws_lambda_function" "quote_handler" {
-    function_name = "${var.lambda_name}"
-    s3_bucket = aws_s3_bucket.code_bucket.bucket
-    s3_key = "quotes/function.zip"
-    role = aws_iam_role.lambda_role.arn
-    handler = "quotes.lambda_handler"
-    runtime = var.python_runtime
-    timeout = 60
-    layers = [aws_lambda_layer_version.requests_layer.arn]
-}
-
-resource "aws_lambda_permission" "allow_eventbridge" {
-  action = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.quote_handler.function_name
-  principal = "events.amazonaws.com"
-  source_arn = aws_cloudwatch_event_rule.scheduler.arn
-  source_account = data.aws_caller_identity.current.account_id
+  #TODO: Use this archive_file block to create a deployment package for the layer.
 }
 
 resource "aws_lambda_layer_version" "requests_layer" {
-  layer_name = "requests_layer"
+  layer_name          = "requests_layer"
   compatible_runtimes = [var.python_runtime]
-  s3_bucket = aws_s3_bucket.code_bucket.bucket
-  s3_key = "quotes/layer.zip"
+  s3_bucket           = # this should be the code_bucket you provision in s3.tf
+  s3_key              = # this should be the key for your layer_code in s3.tf
 }
+
+resource "aws_lambda_function" "quote_handler" {
+  #TODO: Provision the lambda
+  #TODO: Connect the layer which is outlined above
+}
+*/
