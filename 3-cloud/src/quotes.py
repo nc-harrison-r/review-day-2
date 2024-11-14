@@ -15,7 +15,14 @@ logger.setLevel(logging.INFO)
 
 
 BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
-URL = "https://api.quotable.io/quotes/random"
+URL = "https://zenquotes.io/api/random/"
+ZEN_QUOTES_404 = [
+    {
+        "q": "Unrecognized API request. Visit zenquotes.io for documentation.",
+        "a": "zenquotes.io",
+        "h": "<blockquote>Unrecognized API request. Visit zenquotes.io for documentation.</blockquote>",
+    }
+]
 
 
 def lambda_handler(event, context):
@@ -29,7 +36,7 @@ def lambda_handler(event, context):
         if random() < 0.1:
             quote = output_data["quotes"][randint(0, 2)]
             content = quote["content"]
-            logger.info(f"[GREAT QUOTE] {content}")
+            logger.info("[GREAT QUOTE] %s", content)
         key = f"quote_{timestamp}.json"
         write_result = write_to_s3(s3_client, output_data, BUCKET_NAME, key)
         if write_result:
@@ -37,20 +44,29 @@ def lambda_handler(event, context):
         else:
             logger.info("There was a problem. Quotes not written.")
     except Exception as e:
-        logger.info(f"Unexpected Exception: {str(e)}")
+        logger.info(f"Unexpected Exception: %s", str(e))
 
 
 def get_quote(url=URL):
     """Helper to get quote from external API."""
     try:
-        response = requests.get(url)
+        response = requests.get(url, timeout=5)
         response.raise_for_status()
         raw = response.json()
-        required = ["content", "author", "length"]
-        return (response.status_code, {k: raw[0][k] for k in required})
-    except requests.HTTPError as h:
-        logger.info(f"HTTP Status {response.status_code}: {str(h)}")
-        formatted = {"status_message": response.json()["statusMessage"]}
+        if raw == ZEN_QUOTES_404:
+            response.status_code = 404
+            raise requests.exceptions.HTTPError(ZEN_QUOTES_404)
+        required = ["q", "a"]
+        quote = {k: raw[0][k] for k in required}
+        formatted_quote = {
+            "content": quote["q"],
+            "author": quote["a"],
+            "length": len(quote["q"]),
+        }
+        return (response.status_code, formatted_quote)
+    except requests.exceptions.HTTPError as h:
+        logger.error("HTTP Status %s: %s", response.status_code, str(h))
+        formatted = {"status_message": response.json()}
         return (response.status_code, formatted)
 
 
@@ -61,5 +77,5 @@ def write_to_s3(client, data, bucket, key):
         client.put_object(Bucket=bucket, Key=key, Body=body)
         return True
     except ClientError as c:
-        logger.info(f"Boto3 ClientError: {str(c)}")
+        logger.info("Boto3 ClientError: %s", str(c))
         return False
