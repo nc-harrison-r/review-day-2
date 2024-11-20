@@ -16,13 +16,6 @@ logger.setLevel(logging.INFO)
 
 BUCKET_NAME = os.environ["S3_BUCKET_NAME"]
 URL = "https://zenquotes.io/api/random/"
-ZEN_QUOTES_404 = [
-    {
-        "q": "Unrecognized API request. Visit zenquotes.io for documentation.",
-        "a": "zenquotes.io",
-        "h": "<blockquote>Unrecognized API request. Visit zenquotes.io for documentation.</blockquote>",
-    }
-]
 
 
 def lambda_handler(event, context):
@@ -53,9 +46,12 @@ def get_quote(url=URL):
         response = requests.get(url, timeout=5)
         response.raise_for_status()
         raw = response.json()
-        if raw == ZEN_QUOTES_404:
+        if (
+            raw[0]["q"]
+            == "Unrecognized API request. Visit zenquotes.io for documentation."
+        ):
             response.status_code = 404
-            raise requests.exceptions.HTTPError(ZEN_QUOTES_404)
+            raise requests.exceptions.HTTPError(raw[0])
         required = ["q", "a"]
         quote = {k: raw[0][k] for k in required}
         formatted_quote = {
@@ -66,7 +62,7 @@ def get_quote(url=URL):
         return (response.status_code, formatted_quote)
     except requests.exceptions.HTTPError as h:
         logger.error("HTTP Status %s: %s", response.status_code, str(h))
-        formatted = {"status_message": response.json()}
+        formatted = {"status_message": response.json()[0]}
         return (response.status_code, formatted)
 
 

@@ -10,7 +10,7 @@ from moto import mock_aws
 from requests import Response
 
 with patch.dict(os.environ, {"S3_BUCKET_NAME": "test_bucket"}):
-    from src.quotes import get_quote, URL, write_to_s3, lambda_handler, ZEN_QUOTES_404
+    from src.quotes import get_quote, URL, write_to_s3, lambda_handler
 
 
 class DummyContext:
@@ -92,7 +92,10 @@ class TestGetQuote:
     def test_get_quote_error_response(self):
         status_code, response = get_quote(url="https://zenquotes.io/api/wibble/wobble")
         assert status_code == 404
-        assert response == {"status_message": ZEN_QUOTES_404}
+        assert (
+            response["status_message"]["q"]
+            == "Unrecognized API request. Visit zenquotes.io for documentation."
+        )
 
     @pytest.mark.it("unit test: get_quote logs error")
     def test_get_quote_error_log(self, caplog):
