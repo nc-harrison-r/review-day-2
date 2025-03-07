@@ -90,7 +90,16 @@ class TestGetQuote:
 
     @pytest.mark.it("unit test: returns correct message if non 200 response")
     def test_get_quote_error_response(self):
-        status_code, response = get_quote(url="https://zenquotes.io/api/wibble/wobble")
+        mock_response = Mock(spec=Response, status_code=404)
+        with patch("src.quotes.requests.get") as mock_request:
+            mock_request.return_value = mock_response
+            mock_response.json.return_value = [
+                {"q": "Unrecognized API request. Visit zenquotes.io for documentation."}
+            ]
+            status_code, response = get_quote(
+                url="https://zenquotes.io/api/wibble/wobble"
+            )
+
         assert status_code == 404
         assert (
             response["status_message"]["q"]
@@ -100,7 +109,15 @@ class TestGetQuote:
     @pytest.mark.it("unit test: get_quote logs error")
     def test_get_quote_error_log(self, caplog):
         with caplog.at_level(logging.INFO):
-            get_quote(url="https://zenquotes.io/api/wibble/wobble")
+            mock_response = Mock(spec=Response, status_code=404)
+            with patch("src.quotes.requests.get") as mock_request:
+                mock_request.return_value = mock_response
+                mock_response.json.return_value = [
+                    {
+                        "q": "Unrecognized API request. Visit zenquotes.io for documentation."
+                    }
+                ]
+                get_quote(url="https://zenquotes.io/api/wibble/wobble")
             assert "HTTP Status 404" in caplog.text
 
 
