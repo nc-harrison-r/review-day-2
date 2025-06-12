@@ -8,3 +8,5 @@ resource "aws_s3_bucket" "data_bucket" {
     Environment = "Dev"
   }
 }
+# This creates an S3 bucket with a prefix defined in the variables file followed by a unique identifier.
+# tags are added to the bucket for identification and management purposes.
