@@ -32,8 +32,6 @@ resource "aws_iam_role" "lambda_role" {
 
 # Define
 
-
-
 data "aws_iam_policy_document" "s3_data_policy_doc" {
   statement {
     #TODO: this statement should give permission to put objects in the data bucket
@@ -77,7 +75,7 @@ data "aws_iam_policy_document" "cw_document" {
     effect = "Allow"
     actions = ["logs:CreateLogGroup"]
     # resources = ["*"]
-    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"]
+    resources = ["arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:*"]
   }
 
   statement {

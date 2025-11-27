@@ -6,6 +6,12 @@ terraform {
       version = "~> 5.0"
     }
   }
+  # optional - this configures terraform to store the state file in an S3 bucket
+   backend "s3" {
+    bucket = "de-second-review-students-2-cloud-tf-state-2025"
+    key = "2-cloud/terraform.tfstate"
+    region = "eu-west-2"
+  }
 }
 # says that this project will use the aws tools from terraform, version 5.0 or higher
 

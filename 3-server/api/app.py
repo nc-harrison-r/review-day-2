@@ -1,3 +1,4 @@
+# pip install "fastapi[standard]"
 from fastapi import FastAPI
 import json
 import os
@@ -6,10 +7,12 @@ import os
 
 app = FastAPI()
 
+# /HEALTHCHECK
 @app.get("/healthcheck")
 def handle_healthcheck():
     return {"message": "Server is running!"}
 
+# /DOUGHNUTS/INFO
 @app.get("/doughnuts/info")
 def handle_doughnuts_info(max_calories: int = 1001, allow_nuts: bool = True):
     doughnuts = {}

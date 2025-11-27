@@ -1,6 +1,6 @@
 data "archive_file" "lambda" {
   type             = "zip"
-  #this tells aws that we wanr to create a zip file
+  #this tells aws that we want to create a zip file
   output_file_mode = "0666"
   #this sets the permissions for the zip file
   source_file      = "${path.module}/../src/quotes.py"
@@ -63,3 +63,21 @@ environment {
 # This deployes the lambda function to AWS.
 
 
+# LAST PART AGAIN WITHOUT COMMENTS
+
+resource "aws_lambda_function" "quote_handler" {
+  function_name = var.lambda_name
+  filename = "${path.module}/../function.zip"
+  handler = "quotes.lambda_handler"
+  runtime = var.python_runtime
+  role = aws_iam_role.lambda_role.arn
+  timeout = 10
+  layers = [aws_lambda_layer_version.requests_layer.arn]
+  source_code_hash = data.archive_file.lambda.output_base64sha256
+
+environment {
+    variables = {
+      S3_BUCKET_NAME = aws_s3_bucket.data_bucket.bucket
+    }
+  }
+}

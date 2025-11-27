@@ -1,0 +1,27 @@
+            email             | coalesce 
+------------------------------+----------
+ Johnathon.Klocko79@gmail.com |       80
+ trent_gulg@hotmail.com       |       95
+ Newell.Glover@yahoo.com      |       78
+ kim.grady63@gmail.com        |       86
+ halle68@yahoo.com            |      120
+ Jany.Sawayn@hotmail.com      |       66
+ keyon.kessler61@gmail.com    |      101
+ samanta33@hotmail.com        |       80
+ debra.silva@gmail.com        |        0
+ afton7@yahoo.com             |       84
+ Lewis.bechtelar@gmail.com    |       80
+(11 rows)
+
+        title         | total_sales 
+----------------------+-------------
+ Awesome Cotton Table |    71639.10
+ Bespoke Frozen Salad |    41052.48
+ Modern Cotton Shirt  |    39761.28
+(3 rows)
+
+ first_name |       email       | phone_number  | total_sales_in_december_2022 
+------------+-------------------+---------------+------------------------------
+ Halle      | halle68@yahoo.com | 8301 060 1207 |                      8383.74
+(1 row)
+
